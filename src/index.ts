@@ -9,7 +9,7 @@ const app = express();
 
 app.get('/',(req,res)=>{
 
-  res.send("Server Up a");
+  res.send("Server Up");
 
 });
 
