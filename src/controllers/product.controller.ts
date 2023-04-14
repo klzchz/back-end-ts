@@ -1,14 +1,17 @@
 import {Response,Request, response} from 'express';
+import { Product } from '../entities/product.entity';
+import AppDataSource from '../data-source';
+import { promises } from 'dns';
+
 
 class ProductController
 {
 
-   findAll = (request:Request,response:Response)=>{
-
+   findAll = async (request:Request,response:Response):Promise<Response> =>{
+      const  productRepository = AppDataSource.getRepository(Product);
+      const products = await  productRepository.find();
       return  response.status(200).send({
-        data:[
-
-        ]
+        data:products
       })
   }
 

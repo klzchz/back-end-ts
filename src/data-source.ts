@@ -23,4 +23,4 @@ AppDataSource.initialize()
               .catch((error)=>console.log(error))
 
 
-export default {AppDataSource};
+export default AppDataSource;
