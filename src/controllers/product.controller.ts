@@ -34,12 +34,32 @@ class ProductController
       const productDb = await this.productRepository.save(this.product);
 
       return response.status(201).send({
-        data:this.product
+        data:productDb
       });
 
   }
 
+
+  findOne = async (request:Request,response:Response):Promise<Response>=>{
+    const id: string = request.params.id
+
+    const product = await this.productRepository.findOneBy({ id })
+
+
+    if (!product) {
+      return response.status(404).send({
+        error: 'Product not found'
+      })
+    }
+
+    return response.status(200).send({
+      data: product
+    })
+  }
+
 }
+
+
 
 
 export default new ProductController(new Product);

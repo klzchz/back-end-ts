@@ -9,12 +9,16 @@ import productController from './controllers/product.controller';
 const PORT = process.env.PORT || 8080
 
 const app = express();
-app.use(bodyParser.urlencoded({ extended: false }));
+// app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
+
+app.get('/api/products/:id', productController.findOne)
 
 app.post('/api/products',productController.create);
 
 app.get('/api/products',productController.findAll);
+
+
 
 app.get('/',(req,res)=>{
 
