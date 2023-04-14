@@ -23,14 +23,18 @@ class ProductController
   }
 
   create = async (request:Request,response:Response):Promise<Response> =>{
-      this.product.name = 'Product 122';
-      this.product.weight = 80;
-      this.product.description = 'desc prsod';
+
+      const {name,description,weight} = request.body;
+
+      this.product.name = name ;
+      this.product.description = description ;
+      this.product.weight = weight ;
+
 
       const productDb = await this.productRepository.save(this.product);
 
       return response.status(201).send({
-        data:productDb
+        data:this.product
       });
 
   }
