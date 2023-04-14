@@ -11,6 +11,8 @@ const PORT = process.env.PORT || 8080
 
 const app = express();
 
+app.post('/api/products',productController.create);
+
 app.get('/api/products',productController.findAll);
 
 app.get('/',(req,res)=>{
