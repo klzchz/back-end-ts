@@ -19,6 +19,7 @@ app.post('/api/products',productController.create);
 app.get('/api/products',productController.findAll);
 
 app.put('/api/products/:id', productController.update);
+app.delete('/api/products/:id', productController.delete);
 
 
 

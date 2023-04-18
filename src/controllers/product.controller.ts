@@ -62,10 +62,7 @@ class ProductController
     const {name,description,weight} = request.body;
     const id: string = request.params.id;
 
-
-
     try {
-
       const product = await this.productRepository.findOneByOrFail({ id });
       product.name = name;
       product.description = description;
@@ -76,7 +73,6 @@ class ProductController
         data: productDb
       })
 
-
     } catch (error) {
       return response.status(200).send({
         error: error
@@ -84,10 +80,20 @@ class ProductController
 
     }
 
+  }
 
+  delete = async (request:Request,response:Response):Promise<Response> =>{
+    const id: string = request.params.id;
+    try {
+      await this.productRepository.delete(id);
+      return response.status(204).send({});
 
+    } catch (error) {
+      return response.status(400).send({
+        error: 'Error Deleting'
+      })
 
-
+    }
   }
 
 }
