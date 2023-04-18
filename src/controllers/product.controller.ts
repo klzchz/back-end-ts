@@ -2,6 +2,7 @@ import {Response,Request, response} from 'express';
 import { Product } from '../entities/product.entity';
 import AppDataSource from '../data-source';
 import { Repository } from 'typeorm';
+import { validate } from 'class-validator';
 
 
 class ProductController
@@ -29,6 +30,13 @@ class ProductController
       this.product.name = name ;
       this.product.description = description ;
       this.product.weight = weight ;
+
+      const errors = await validate(this.product)
+      if(errors.length > 0) {
+        return response.status(422).send({
+          errors
+        })
+      }
 
 
       const productDb = await this.productRepository.save(this.product);
@@ -67,6 +75,16 @@ class ProductController
       product.name = name;
       product.description = description;
       product.weight = weight;
+
+
+      const errors = await validate(product)
+      if(errors.length > 0) {
+        return response.status(422).send({
+          errors
+        })
+      }
+
+
       const productDb = await this.productRepository.save(product);
 
       return response.status(200).send({
