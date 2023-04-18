@@ -57,6 +57,39 @@ class ProductController
     })
   }
 
+
+  update = async(request:Request, response:Response):Promise<Response>=>{
+    const {name,description,weight} = request.body;
+    const id: string = request.params.id;
+
+
+
+    try {
+
+      const product = await this.productRepository.findOneByOrFail({ id });
+      product.name = name;
+      product.description = description;
+      product.weight = weight;
+      const productDb = await this.productRepository.save(product);
+
+      return response.status(200).send({
+        data: productDb
+      })
+
+
+    } catch (error) {
+      return response.status(200).send({
+        error: error
+      })
+
+    }
+
+
+
+
+
+  }
+
 }
 
 
