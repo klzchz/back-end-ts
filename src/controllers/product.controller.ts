@@ -107,7 +107,7 @@ class ProductController
   delete = async (request:Request,response:Response):Promise<Response> =>{
     const id: string = request.params.id;
     try {
-      await this.productRepository.delete(id);
+      await this.repository.delete(id);
       return response.status(204).send({});
 
     } catch (error) {
