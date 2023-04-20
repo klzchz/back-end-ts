@@ -1,23 +1,26 @@
 import {Response,Request, response} from 'express';
-import { Product } from '../entities/product.entity';
-import AppDataSource from '../data-source';
+import { Product } from '@/entities/product.entity';
+import AppDataSource from '@/database/data-source';
 import { Repository } from 'typeorm';
 import { validate } from 'class-validator';
+import { ProductRepository } from '@/repositories/product.repository';
 
 
 class ProductController
 {
   private productRepository:Repository<Product>;
   protected product:Product;
+  private repository:ProductRepository;
 
-  constructor(product: Product){
+  constructor(product: Product,repository: ProductRepository){
     this.productRepository = AppDataSource.getRepository(Product);
     this.product = product;
+    this.repository = repository;
   }
 
    findAll = async (request:Request,response:Response):Promise<Response> =>{
 
-      const products = await this.productRepository.find();
+      const products = await this.repository.getAll();
       return  response.status(200).send({
         data:products
       })
@@ -119,4 +122,4 @@ class ProductController
 
 
 
-export default new ProductController(new Product);
+export default new ProductController(new Product,new ProductRepository);
