@@ -4,7 +4,7 @@ import AppDataSource from '@/database/data-source';
 import { Repository } from 'typeorm';
 import { validate } from 'class-validator';
 import { ProductRepository } from '@/repositories/product.repository';
-import CreateProductDTO from '@/dto/create.product.dto';
+import {CreateProductDTO} from '@/dto/create.product.dto';
 
 
 class ProductController
@@ -36,12 +36,12 @@ class ProductController
       this.dtoCreate.description = description ;
       this.dtoCreate.weight = weight ;
 
-      // const errors = await validate(this.dtoCreate)
-      // if(errors.length > 0) {
-      //   return response.status(422).send({
-      //     errors
-      //   })
-      // }
+      const errors = await validate(this.dtoCreate)
+      if(errors.length > 0) {
+        return response.status(422).send({
+          errors
+        })
+      }
 
       const productDb = await this.repository.create(this.dtoCreate);
 
