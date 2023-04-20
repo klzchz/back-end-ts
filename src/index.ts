@@ -1,3 +1,4 @@
+import 'module-alias/register';
 import dotenv from 'dotenv';
 import express, { response } from 'express';
 
@@ -5,8 +6,8 @@ import express, { response } from 'express';
 const bodyParser = require('body-parser');
 dotenv.config()
 
-import './data-source';
-import productController from './controllers/product.controller';
+import '@/data-source';
+import productController from '@/controllers/product.controller';
 import cors from 'cors';
 
 
