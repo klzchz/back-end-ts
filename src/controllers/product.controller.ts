@@ -4,6 +4,7 @@ import AppDataSource from '@/database/data-source';
 import { Repository } from 'typeorm';
 import { validate } from 'class-validator';
 import { ProductRepository } from '@/repositories/product.repository';
+import CreateProductDTO from '@/dto/create.product.dto';
 
 
 class ProductController
@@ -11,11 +12,12 @@ class ProductController
   private productRepository:Repository<Product>;
   protected product:Product;
   private repository:ProductRepository;
+  private dtoCreate:CreateProductDTO;
 
-  constructor(product: Product,repository: ProductRepository){
+  constructor(productCreateDto:CreateProductDTO ,repository: ProductRepository){
     this.productRepository = AppDataSource.getRepository(Product);
-    this.product = product;
     this.repository = repository;
+    this.dtoCreate =productCreateDto;
   }
 
    findAll = async (request:Request,response:Response):Promise<Response> =>{
@@ -30,19 +32,18 @@ class ProductController
 
       const {name,description,weight} = request.body;
 
-      this.product.name = name ;
-      this.product.description = description ;
-      this.product.weight = weight ;
+      this.dtoCreate.name = name ;
+      this.dtoCreate.description = description ;
+      this.dtoCreate.weight = weight ;
 
-      const errors = await validate(this.product)
-      if(errors.length > 0) {
-        return response.status(422).send({
-          errors
-        })
-      }
+      // const errors = await validate(this.dtoCreate)
+      // if(errors.length > 0) {
+      //   return response.status(422).send({
+      //     errors
+      //   })
+      // }
 
-
-      const productDb = await this.productRepository.save(this.product);
+      const productDb = await this.repository.create(this.dtoCreate);
 
       return response.status(201).send({
         data:productDb
@@ -122,4 +123,4 @@ class ProductController
 
 
 
-export default new ProductController(new Product,new ProductRepository);
+export default new ProductController(new CreateProductDTO,new ProductRepository);
