@@ -53,16 +53,16 @@ class ProductController
 
 
   findOne = async (request:Request,response:Response):Promise<Response>=>{
-    const id: string = request.params.id
+    const id: string = request.params.id;
 
-    const product = await this.productRepository.findOneBy({ id })
-
+    const product = await this.repository.find(id);
 
     if (!product) {
       return response.status(404).send({
         error: 'Product not found'
-      })
+      });
     }
+
 
     return response.status(200).send({
       data: product

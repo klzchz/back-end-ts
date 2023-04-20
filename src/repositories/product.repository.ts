@@ -23,10 +23,11 @@ export class ProductRepository {
     product.description = input.description;
     product.weight = input.weight;
 
-
-
     return await this.repository.save(product);
 
   }
+    find = async(id:string):Promise<Product|null>=>{
+      return await this.repository.findOneBy({id});
+    }
 
 }
